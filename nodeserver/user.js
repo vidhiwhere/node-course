@@ -1,4 +1,5 @@
 const http=require('http');
+const fs = require('fs');
 
 
 
@@ -20,12 +21,28 @@ res.write('<label for="male">Male</label><br>');
 
      res.write('<input type="submit" value="submit">');
     
-    res.write('</form'); 
+    res.write('</form>');
     res.write('</body>');
       res.write('</html>');
       res.end();
       return;
  
+}
+else if (req.url.toLowerCase()==='/submit-details' && req.method== 'POST'){
+  let body = '';
+  req.on('data', chunk => {
+    body += chunk.toString();
+  });
+  req.on('end', () => {
+    const parsedBody = new URLSearchParams(body);
+    const username = parsedBody.get('username');
+    const gender = parsedBody.get('gender');
+    fs.writeFileSync('user.txt', `Username: ${username}, Gender: ${gender}`);
+    res.statusCode = 302;
+    res.setHeader('Location', '/');
+    res.end();
+  });
+  return;
 }
 else if(req.url==='/about'){
  res.setHeader('Content-Type','text/html');
@@ -45,13 +62,14 @@ else if(req.url==='/contract'){
       res.end();
  return;
 }
-
+else {
  res.setHeader('Content-Type','text/html');
   res.write('<html>');
     res.write('<head><title>My First Page</title></head>');
     res.write('<body><h1> like/share/subscribe</h1></body>');
       res.write('</html>');
       res.end();
+}
  
 
 
