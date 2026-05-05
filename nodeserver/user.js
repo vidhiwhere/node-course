@@ -10,7 +10,18 @@ if(req.url==='/'){
  res.setHeader('Content-Type','text/html');
   res.write('<html>');
     res.write('<head><title>My First Page</title></head>');
-    res.write('<body><h1> home</h1></body>');
+    res.write('<body><h1>enter your details</h1>');
+    res.write('<form action="/submit-details" method="POST">'); 
+    res.write('<input type="text" name="username" placeholder="enter your name"><br>');
+res.write('<label for="male">Male</label><br>');
+     res.write('<input type="radio" name="gender" value="male" placeholder="male"><br>');
+      res.write('<label for="female">Female</label><br>');
+     res.write('<input type="radio" name="gender" value="female" placeholder="female"><br>');
+
+     res.write('<input type="submit" value="submit">');
+    
+    res.write('</form'); 
+    res.write('</body>');
       res.write('</html>');
       res.end();
       return;
